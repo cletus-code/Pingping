@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Encyclopedia of Ping</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Gaegu', 'Comic Sans MS', 'Comic Sans', cursive;
+    background: #E7EFF5;
+    color: #26333D;
+    min-height: 100vh;
+    font-size: 1.05em;
+  }
+  a { color: #2C79AC; text-decoration: none; border-bottom: 2px dotted #7FB2D4; }
+  a:hover { color: #1E5A82; border-bottom-color: #2C79AC; }
+  ::selection { background: #BFE0F2; }
+  @keyframes pingPop { 0% { opacity: 0; transform: translateY(10px) scale(.98); } 100% { opacity: 1; transform: none; } }
+  .ping-scroll::-webkit-scrollbar { height: 6px; }
+  .ping-scroll::-webkit-scrollbar-thumb { background: #BBD9EC; border-radius: 99px; }
+
+  header {
+    display: flex; flex-direction: column; align-items: center; gap: 14px;
+    padding: 38px 20px 8px; text-align: center;
+  }
+  .kicker { letter-spacing: 2px; color: #8A97A1; font-size: 16px; }
+  h1 {
+    margin: 0; font-size: clamp(34px, 6vw, 52px); color: #26333D; line-height: 1.05;
+    font-family: 'Gaegu', 'Comic Sans MS', 'Comic Sans', cursive;
+  }
+  .subtitle { margin: 0; color: #5C6B75; font-size: 19px; max-width: 520px; }
+
+  .toggle-wrap {
+    display: inline-flex; gap: 4px; padding: 5px;
+    background: #FFFFFF; border-radius: 99px; margin-top: 4px;
+  }
+  .toggle-wrap button {
+    font-family: inherit; font-size: 19px; padding: 8px 26px;
+    border-radius: 99px; border: none; cursor: pointer;
+    transition: all .18s ease; background: transparent; color: #6E7C86; font-weight: 400;
+  }
+  .toggle-wrap button.on { background: var(--accent); color: #26333D; font-weight: 700; }
+
+  main {
+    width: 100%; max-width: 760px; margin: 0 auto;
+    padding: 22px 20px 150px;
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  .chapter-head { display: flex; align-items: center; gap: 12px; padding: 2px 4px; }
+  .chapter-num {
+    font-family: inherit; font-size: 20px; color: #26333D;
+    background: var(--accent); border-radius: 11px; padding: 3px 11px;
+  }
+  .chapter-head h2 { margin: 0; font-size: 34px; color: #26333D; line-height: 1; }
+
+  section {
+    border-radius: 18px; padding: 20px 22px; background: #FFFFFF;
+    animation: pingPop .3s ease both;
+  }
+  section.warn { background: #DBE9F4; }
+  section.good { background: #D8E6F1; }
+  section h3 {
+    margin: 0 0 12px; font-size: 23px; color: #33424C;
+    display: flex; align-items: center; gap: 9px; font-weight: 700;
+  }
+  .dot { width: 13px; height: 13px; border-radius: 50%; background: var(--accent); flex-shrink: 0; display: inline-block; }
+  section.warn .dot { background: #5FA8D3; }
+  section.good .dot { background: #7FB6DA; }
+
+  .items { display: flex; flex-direction: column; gap: 10px; }
+  .item { display: flex; align-items: flex-start; gap: 11px; font-size: 19px; line-height: 1.5; color: #33424C; }
+  .item .bullet {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+    margin-top: 10px; flex-shrink: 0; display: inline-block;
+  }
+  .item .content { flex: 1; }
+  .item .content strong { color: #26333D; }
+  .item.subhead .bullet { display: none; }
+  .item.subhead .content {
+    margin-top: 6px; font-size: 17px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .6px; color: #4E86AD;
+  }
+  .item.lead .bullet { display: none; }
+
+  nav {
+    position: fixed; bottom: 18px; left: 0; right: 0;
+    display: flex; justify-content: center; pointer-events: none; z-index: 50;
+  }
+  .nav-inner {
+    pointer-events: auto; position: relative;
+    display: flex; gap: 2px; padding: 7px 9px;
+    background: #FFFFFF; border-radius: 18px;
+    max-width: calc(100vw - 24px); overflow-x: auto;
+  }
+  .hover-hl {
+    position: absolute; top: 7px; bottom: 7px; left: 0; width: 0;
+    background: color-mix(in srgb, var(--accent) 40%, transparent);
+    border-radius: 13px; opacity: 0; transform: scale(0.35);
+    transform-origin: center; pointer-events: none; z-index: 0;
+    transition: left .5s cubic-bezier(.22,1,.36,1) .07s,
+                width .5s cubic-bezier(.22,1,.36,1) .07s,
+                transform .4s cubic-bezier(.34,1.56,.64,1),
+                opacity .22s ease;
+  }
+  .hover-hl.show { opacity: 1; transform: scale(1); }
+  .nav-inner button {
+    position: relative; z-index: 1; font-family: inherit; font-size: 17px;
+    padding: 8px 15px; border-radius: 13px; border: none; cursor: pointer;
+    white-space: nowrap; text-transform: capitalize;
+    transition: color .18s ease, background .18s ease;
+    background: transparent; color: #6E7C86; font-weight: 400;
+  }
+  .nav-inner button.active { background: var(--accent); color: #26333D; font-weight: 700; }
+</style>
+</head>
+<body style="--accent:#8FC7E6">
+
+<header>
+  <div class="kicker">A CAT-SITTING GUIDE</div>
+  <h1>The Encyclopedia of Ping</h1>
+  <p class="subtitle">Everything you need to look after Ping while I'm away. <br>Thank you for taking care of my chubby little&nbsp;imp. 🐈</p>
+  <div class="toggle-wrap">
+    <button id="btn-tldr" class="on">TL;DR</button>
+    <button id="btn-detailed">Detailed</button>
+  </div>
+</header>
+
+<main>
+  <div class="chapter-head">
+    <span class="chapter-num" id="chapter-num"></span>
+    <h2 id="chapter-title"></h2>
+  </div>
+  <div id="cards" style="display:flex; flex-direction:column; gap:20px;"></div>
+</main>
+
+<nav>
+  <div class="nav-inner ping-scroll" id="nav-inner">
+    <div class="hover-hl" id="hover-hl"></div>
+  </div>
+</nav>
+
+<script>
+const DATA = {
+  supplies: {
+    num: '01', title: 'Supplies', label: 'supplies',
+    tldr: [
+      { ti: 'The checklist', it: [
+        { l: 'Bowls: ', t: 'water bowl, food bowl' },
+        { l: 'Food: ', t: 'dry kibble, raw food, snacks' },
+        { l: 'Toy: ', t: '1 white llama' },
+        { l: 'Bedding: ', t: '1 blanket, 1 pillow for sleeping' },
+      ] },
+    ],
+    detailed: [
+      { ti: 'Food containers', it: ['Water bowl', 'Food bowl'] },
+      { ti: 'Food', it: ['Dry kibble', 'Raw food', 'Snacks'] },
+      { ti: 'Toy', it: ['1 white llama'] },
+      { ti: 'Blanket / pad', it: ['1 blanket', '1 pillow for sleeping'] },
+    ],
+  },
+  diet: {
+    num: '02', title: 'Diet', label: 'diet',
+    tldr: [
+      { ti: 'The strategy', it: [
+        { l: 'Two facts: ', t: 'Ping is overweight for his age and size. And Ping LOVES food.' },
+        { t: 'So: 1 meal a day, with water added to the food to increase the volume, so he thinks he’s eating more than he is.' },
+      ] },
+      { ti: 'Feeding', it: [
+        { l: 'What: ', t: 'raw food AND kibble — raw for nutrition, kibble for dental health.' },
+        { l: 'When: ', t: '1 meal a day, usually at night. Mornings are fine too, as long as it’s mostly the same time every day.' },
+      ] },
+      { ti: '⚠️ Wash the bowl every feeding', to: 'warn', it: [
+        { t: 'There’s raw meat in his diet, so the bowl gets washed after every meal — for your health as much as his, since you’re the one touching it. Easiest right after he eats, while it’s still wet.' },
+      ] },
+      { ti: 'Begging — do not fall for it', to: 'good', it: [
+        { t: 'He is not hungry. He has a huge primordial pouch. He will be fine. If he keeps gaslighting you, distract him with play or let him outside if it’s still daytime.' },
+      ] },
+    ],
+    detailed: [
+      { ti: 'Why he eats the way he does', it: [
+        { t: 'Ping is overweight for his age and size.' },
+        { t: 'Ping LOVES food.' },
+        { t: 'With these two factors combined, the overall strategy for feeding is 1 time a day, with water added to his food to increase the volume so he thinks he’s eating more than he is.' },
+      ] },
+      { ti: 'What he eats', it: [
+        { t: 'Ping eats raw food AND kibble — raw food for nutrition, kibble for dental health.' },
+      ] },
+      { ti: 'Feeding instructions', it: [
+        { t: '1 meal a day, usually fed at night, but he’s flexible and can do morning feedings too — feedings just need to happen at mostly the same time every day.' },
+      ] },
+      { ti: 'Hygiene of food containers', to: 'warn', it: [
+        { t: 'Because there is raw meat in the diet, the bowl should be washed every feeding to prevent bacteria overgrowth. This is for both your health and the cat’s, as you will be touching the bowl. The easiest way is to rinse it immediately after he eats, because it will be wet and easy to rinse off.' },
+      ] },
+      { ti: 'Begging', to: 'good', it: [
+        { t: 'Ping is a very intelligent cat, which means he gets bored a lot, and sometimes he will try to combat boredom by asking for snacks. Do not succumb to these solicitations — he is not hungry, he has a huge primordial pouch, he will be fine. If he keeps gaslighting you, you could either distract him with play or let him outside if it is still daytime.' },
+      ] },
+    ],
+  },
+  sleep: {
+    num: '03', title: 'Sleep', label: 'sleep',
+    tldr: [
+      { ti: 'Where he sleeps', it: [
+        { t: 'Anywhere he likes. But if you do not like for him to sleep near you, maybe you should question your problems with intimacy.' },
+      ] },
+      { ti: 'Sleep spot = relationship status', it: [
+        { l: 'Under the bed / couch: ', t: 'still adjusting. Give him 1–2 days. Do not worry.' },
+        { l: 'A different room: ', t: 'not close enough with you yet — or he’s pissed at you for not hanging out with / walking him enough.' },
+        { l: 'Same room, other furniture: ', t: 'lukewarm about the relationship. Or it’s just hot.' },
+        { l: 'Foot of your bed: ', t: 'safe and close — platonically.' },
+        { l: 'On your blanket, on/between your legs: ', t: 'you’ve earned his trust. Close friend and mentor.' },
+        { l: 'Near your pillow / face: ', t: 'he loves you.' },
+        { l: 'INSIDE your blanket, cuddling: ', t: 'he is in love with you and is cheating on me with you.' },
+        { l: 'Purring, inside your blanket, in your arms: ', t: 'cheating.' },
+      ] },
+    ],
+    detailed: [
+      { ti: 'Where he sleeps', it: [
+        { t: 'Ping sleeps anywhere he likes, but if you do not like for him to sleep near you, maybe you should question your problems with intimacy.' },
+      ] },
+      { ti: 'Sleep as an indicator for how he currently feels about you', it: [
+        { l: '1. Sleeps under the bed / couch / a hiding spot: ', t: 'he is most likely just getting adjusted to the environment and is quite timid. It will take him 1–2 days to sus out the environment and feel safe enough to come out to sleep. Do not worry.' },
+        { l: '2. Sleeps in a different room: ', t: 'Ping does not feel close enough or safe enough with you yet — or he was previously close to you but is currently pissed at you for some reason. The reason is usually that he thinks you’re not hanging out with him enough, or he’s not getting walked enough.' },
+        { l: '3. Sleeps on a different piece of furniture in the same room: ', t: 'he feels lukewarm about your relationship at the moment. Or it’s just too hot.' },
+        { l: '4. Sleeps on your bed, but at the foot: ', t: 'he feels safe and close to you, but in a platonic way.' },
+        { l: '5. Sleeps on your blanket, on or in between your legs: ', t: 'congrats! You have earned his trust and he now considers you a close friend and mentor.' },
+        { l: '6. Sleeps near your pillow, closer to your face: ', t: 'congrats! He loves you.' },
+        { l: '7. Sleeps INSIDE your blanket, cuddling with you: ', t: 'he is in love with you and is cheating on me with you.' },
+        { l: '8. Purrs while sleeping inside your blanket, inside your arms: ', t: 'cheating.' },
+      ] },
+    ],
+  },
+  outdoor: {
+    num: '04', title: 'Outdoor', label: 'outdoor',
+    tldr: [
+      { ti: '⚠️ Does this chapter apply to you?', to: 'warn', it: [
+        { t: 'Ignore this whole section if your residence is an urban apartment, does not have a backyard, or faces a street with very fast traffic.' },
+      ] },
+      { ti: 'Letting him out', it: [
+        { l: 'When: ', t: 'mornings, 5–9am. After 9am traffic gets busy and Ping gets intimidated.' },
+        { l: 'How: ', t: 'open a door. He will go wherever he pleases.' },
+        { l: 'Only if: ', t: 'he’s already comfortable in the apartment and doesn’t hide or run from you — otherwise he’ll treat it as a chance to escape a kidnapper.' },
+      ] },
+      { ti: 'Getting him home', it: [
+        { t: 'After dark he gets hungry and feels safe enough to come home. Call “Ping ping” or whistle — he has very good hearing and will come back meowing. Don’t worry during the day; he just feels exposed.' },
+      ] },
+      { ti: 'Walks are his favorite', to: 'good', it: [
+        { t: '5–8am or after 9pm • 20–30 min • just walk and he follows • stay near woods and shrubs he can hide in • if you lose him, call and he’ll meow back.' },
+      ] },
+    ],
+    detailed: [
+      { ti: '⚠️ Does this section apply to you?', to: 'warn', it: [
+        { t: 'ALERT: ignore this section if your residence is an urban apartment, does not have a backyard, or faces a street with very fast traffic.' },
+      ] },
+      { ti: 'When to let Ping out', it: [
+        { t: 'It is safe to let him out in the morning between 5–9am. After 9am traffic typically gets quite busy and Ping gets intimidated.' },
+      ] },
+      { ti: 'How to let Ping out', it: [
+        { t: 'Open a door. He will go wherever he pleases.' },
+        { l: 'CAUTION: ', t: 'do this if and only if he has become comfortable in the apartment and does not hide or run from you. If you let him out before he has grown familiar with you and the environment, he will see it as an opportunity to escape from a kidnapper.' },
+      ] },
+      { ti: 'When to call him home', it: [
+        { t: 'After it gets dark, Ping will get hungry and feel safe enough to come home. He typically does not feel super safe walking home in the middle of the day, when he feels exposed. Do not worry, and trust that he will return when called once the sun has set.' },
+      ] },
+      { ti: 'How to call him home', it: [
+        { t: 'Ping responds to “Ping ping” and to whistling. He has very good hearing. Once he hears you, he will return while meowing.' },
+      ] },
+      { ti: 'Walking the cat', to: 'good', it: [
+        { kind: 'lead', t: 'If possible, Ping’s preferred way to be outside is actually to be walked. With a human, he is able to access places he otherwise does not feel confident to explore, and can discover more areas and scents.' },
+        { kind: 'subhead', t: 'When to do this' },
+        { t: 'Before traffic sets in — anytime 5–8am — or anytime after 9pm.' },
+        { kind: 'subhead', t: 'How to walk him' },
+        { t: 'Just walk. He will follow you. Most of the time, if you walk on the pavement, he prefers to walk in the neighborhood front yards a bit further in — trust that he will follow closely.' },
+        { t: 'If you lose sight of him, simply call him and he will meow back to help you locate him. He is slower than a dog and sometimes likes to take his time smelling things.' },
+        { t: 'Be patient. If there are loud noises, people or dogs on the sidewalk, he might get intimidated and want to hide. Let him hide — when the people or dogs pass, he will reemerge. If the things intimidating him persist on the sidewalk, he will meow to turn back; if this happens, turn back with him.' },
+        { kind: 'subhead', t: 'Where to walk him' },
+        { t: 'Try to stay in wooded areas, or areas with more shrubs he could hide in. Bare naked concrete pavement or totally empty front yards make him feel hesitant and exposed.' },
+        { kind: 'subhead', t: 'How long to walk for' },
+        { t: '20–30 min. Anything shorter and he will be dissatisfied and not want to come home at the end.' },
+      ] },
+    ],
+  },
+  socializing: {
+    num: '05', title: 'Socializing', label: 'socializing',
+    tldr: [
+      { ti: 'He’s a social animal', it: [
+        { t: 'Ping likes to socialize with people in the house, enjoys laying on people, and enjoys playing chasing games.' },
+      ] },
+      { ti: 'Getting acquainted', it: [
+        { t: 'New environment = give him about 1 day in your room, with food and litter box accessible, before expecting anything social. Once he stops hiding, introduce new people by greeting him with snacks.' },
+      ] },
+      { ti: 'How to win his favor', to: 'good', it: [
+        { l: 'Petting: ', t: 'chin, cheeks and forehead scratches; very light spanks on his butt (the space before the root of his tail).' },
+        { l: 'Bribery: ', t: 'snacks and table scraps — all meats, eggs and dairy, but absolutely no bones.' },
+        { l: 'Play: ', t: 'play games with him.' },
+      ] },
+    ],
+    detailed: [
+      { ti: 'How social he is', it: [
+        { t: 'Ping is a very social animal. He likes to socialize with people in the house, and enjoys laying on people and playing chasing games.' },
+      ] },
+      { ti: 'Getting acquainted', it: [
+        { t: 'If it is an entirely new environment, he will need some time to be comfortable with the place before being social. Give him time — typically 1 day in your room (with food and litter box accessible) to be confident with the environment. Once he no longer hides, introduce new people by greeting him with snacks.' },
+      ] },
+      { ti: 'How to win Ping’s favor', to: 'good', it: [
+        { l: 'Petting: ', t: 'he enjoys scratches on his chin, cheeks and forehead, and being spanked very lightly on his butt (the space before the root of his tail).' },
+        { l: 'Bribery: ', t: 'give him snacks and your table scraps. He can eat all meats, eggs and dairy — but absolutely no bones.' },
+        { l: 'Play: ', t: 'play games with him.' },
+      ] },
+    ],
+  },
+  play: {
+    num: '06', title: 'Play', label: 'play',
+    tldr: [
+      { ti: 'His games', it: [
+        { l: 'Llama toy: ', t: 'his favorite thing to play with.' },
+        { l: 'Hand wrestling: ', t: 'once he’s comfortable with you. Put a sock over your hand first — he is a brutal predator and does not hold back.' },
+        { l: 'Chasing: ', t: 'in bigger spaces, pretend to chase him.' },
+      ] },
+    ],
+    detailed: [
+      { ti: 'Games', it: [
+        { l: 'Llama toy: ', t: 'he likes playing with his llama toy.' },
+        { l: 'Hand wrestling: ', t: 'if he is comfortable with you, he will wrestle your hand. Put a sock over your hand — he is a brutal predator and does not hold back.' },
+        { l: 'Chasing games: ', t: 'he also enjoys chasing games in bigger spaces, where you pretend to chase him.' },
+      ] },
+    ],
+  },
+  bathroom: {
+    num: '07', title: 'Bathroom use', label: 'bathroom',
+    tldr: [
+      { ti: 'Indoors', it: [
+        { t: 'If he’s confined indoors, he uses the litter box. Scoop it no less frequently than every other day.' },
+      ] },
+      { ti: 'Outdoors', it: [
+        { t: 'If he’s allowed outside, he’ll do most of his business out there.' },
+      ] },
+      { ti: '⚠️ Litter disposal', to: 'warn', it: [
+        { t: 'The litter is NOT biodegradable — please dispose of it in landfill.' },
+      ] },
+    ],
+    detailed: [
+      { ti: 'Indoor', it: [
+        { t: 'If he is confined indoors, he will use the litter box. Please keep the litter box clean by scooping no less frequently than every other day.' },
+      ] },
+      { ti: 'Litter disposal', to: 'warn', it: [
+        { t: 'The litter is not biodegradable — please dispose of it in landfill.' },
+      ] },
+      { ti: 'Outdoor', it: [
+        { t: 'If he is allowed outside, he will do most of his business outside.' },
+      ] },
+    ],
+  },
+  body: {
+    num: '08', title: 'Body language', label: 'body language',
+    tldr: [
+      { ti: 'Quick decoder', it: [
+        { l: 'Tail straight up (tip curling like a question mark): ', t: 'confident and happy.' },
+        { l: 'Tail down low: ', t: 'unsure about the environment, kind of scared.' },
+        { l: 'Tail poofed up like a raccoon: ', t: 'spooked by something.' },
+        { l: 'Rubbing against your leg: ', t: 'begging for affection and pets.' },
+        { l: 'Long whiny meows: ', t: 'complaining — usually begging for food, or unhappy about how long he’s been left alone.' },
+        { l: 'Short, staccato meows: ', t: 'answering you so you can find him, or asking for your attention.' },
+        { l: 'Hissing: ', t: 'you stepped on his tail, or something scary is outside.' },
+      ] },
+    ],
+    detailed: [
+      { ti: 'Tail', it: [
+        { l: 'Straight up, sometimes curling at the tip like a question mark: ', t: 'he is confident and happy.' },
+        { l: 'Down low: ', t: 'he is unsure about the environment and kind of scared.' },
+        { l: 'Poofed up like a raccoon: ', t: 'he is spooked by something.' },
+      ] },
+      { ti: 'Meows', it: [
+        { l: 'Long whiny meows: ', t: 'he is complaining about something — usually begging for food, or unhappy about how long he’s been left alone.' },
+        { l: 'Short, multiple staccato meows: ', t: 'either a response to you, to help you locate where he is, or he’s asking for your attention.' },
+      ] },
+      { ti: 'Everything else', to: 'good', it: [
+        { l: 'Rubbing against your leg: ', t: 'he is begging for affection and pets.' },
+        { l: 'Hissing: ', t: 'either because you stepped on his tail, or in response to something scary outside.' },
+      ] },
+    ],
+  },
+};
+
+const ORDER = ['supplies','diet','sleep','outdoor','socializing','play','bathroom','body'];
+const PLAYFUL_TILT = false;
+
+const state = { tab: 'supplies', mode: 'tldr' };
+
+function norm(it) {
+  if (typeof it === 'string') return { label: '', text: it, link: null, kind: 'bullet' };
+  return { label: it.l || '', text: it.t || '', link: it.link || null, kind: it.kind || 'bullet' };
+}
+
+function render() {
+  const cur = DATA[state.tab];
+  document.getElementById('chapter-num').textContent = cur.num;
+  document.getElementById('chapter-title').textContent = cur.title;
+
+  document.getElementById('btn-tldr').classList.toggle('on', state.mode === 'tldr');
+  document.getElementById('btn-detailed').classList.toggle('on', state.mode === 'detailed');
+
+  const cardsEl = document.getElementById('cards');
+  cardsEl.innerHTML = '';
+  cur[state.mode].forEach((c, ci) => {
+    const sec = document.createElement('section');
+    const tone = c.to || 'default';
+    if (tone !== 'default') sec.classList.add(tone);
+    if (PLAYFUL_TILT) sec.style.transform = `rotate(${ci % 2 === 0 ? -0.4 : 0.5}deg)`;
+
+    if (c.ti) {
+      const h3 = document.createElement('h3');
+      const dot = document.createElement('span');
+      dot.className = 'dot';
+      h3.appendChild(dot);
+      h3.appendChild(document.createTextNode(c.ti));
+      sec.appendChild(h3);
+    }
+
+    const items = document.createElement('div');
+    items.className = 'items';
+    c.it.forEach((raw) => {
+      const it = norm(raw);
+      const row = document.createElement('div');
+      row.className = 'item' + (it.kind !== 'bullet' ? ' ' + it.kind : '');
+
+      const bullet = document.createElement('span');
+      bullet.className = 'bullet';
+      row.appendChild(bullet);
+
+      const content = document.createElement('div');
+      content.className = 'content';
+      if (it.label) {
+        const strong = document.createElement('strong');
+        strong.textContent = it.label;
+        content.appendChild(strong);
+      }
+      const span = document.createElement('span');
+      span.textContent = it.text;
+      content.appendChild(span);
+      if (it.link) {
+        const a = document.createElement('a');
+        a.href = it.link.url;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.textContent = ' ' + it.link.label;
+        content.appendChild(a);
+      }
+      row.appendChild(content);
+      items.appendChild(row);
+    });
+    sec.appendChild(items);
+    cardsEl.appendChild(sec);
+  });
+
+  document.querySelectorAll('.nav-inner button').forEach((b) => {
+    b.classList.toggle('active', b.dataset.tab === state.tab);
+  });
+}
+
+const navInner = document.getElementById('nav-inner');
+const hoverHl = document.getElementById('hover-hl');
+
+ORDER.forEach((id) => {
+  const b = document.createElement('button');
+  b.textContent = DATA[id].label;
+  b.dataset.tab = id;
+  b.addEventListener('click', () => { state.tab = id; render(); });
+  b.addEventListener('mouseenter', () => {
+    hoverHl.style.left = b.offsetLeft + 'px';
+    hoverHl.style.width = b.offsetWidth + 'px';
+    hoverHl.classList.add('show');
+  });
+  navInner.appendChild(b);
+});
+navInner.addEventListener('mouseleave', () => hoverHl.classList.remove('show'));
+
+document.getElementById('btn-tldr').addEventListener('click', () => { state.mode = 'tldr'; render(); });
+document.getElementById('btn-detailed').addEventListener('click', () => { state.mode = 'detailed'; render(); });
+
+render();
+</script>
+</body>
+</html>
