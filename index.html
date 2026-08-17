@@ -176,6 +176,11 @@ const DATA = {
       { ti: 'Feeding', it: [
         { l: 'What: ', t: 'raw food AND kibble — raw for nutrition, kibble for dental health.' },
         { l: 'When: ', t: '1 meal a day, usually at night. Mornings are fine too, as long as it’s mostly the same time every day.' },
+        { l: 'The bowl: ', t: 'thawed raw block + 20–30 kibble (a small handful, eyeball it) + a splash of water.' },
+        { l: 'Thawing: ', t: '3+ hrs in the fridge (start it in the morning), 1 hr out on the counter, or 13 sec in the microwave if you forgot.' },
+      ] },
+      { ti: 'Water', it: [
+        { t: 'Change the water bowl every 2–3 days.' },
       ] },
       { ti: '⚠️ Wash the bowl every feeding', to: 'warn', it: [
         { t: 'There’s raw meat in his diet, so the bowl gets washed after every meal — for your health as much as his, since you’re the one touching it. Easiest right after he eats, while it’s still wet.' },
@@ -194,7 +199,20 @@ const DATA = {
         { t: 'Ping eats raw food AND kibble — raw food for nutrition, kibble for dental health.' },
       ] },
       { ti: 'Feeding instructions', it: [
-        { t: '1 meal a day, usually fed at night, but he’s flexible and can do morning feedings too — feedings just need to happen at mostly the same time every day.' },
+        { kind: 'lead', t: '1 meal a day, usually fed at night, but he’s flexible and can do morning feedings too — feedings just need to happen at mostly the same time every day.' },
+        { kind: 'subhead', t: 'Step 1 — thaw the raw food block' },
+        { l: 'In the fridge: ', t: '3+ hours. The nice option — start it in the morning and it’s ready by feeding time.' },
+        { l: 'Out at room temperature: ', t: '1 hour. Faster.' },
+        { l: 'Forgot to thaw? ', t: 'pop it into a microwavable container and microwave for 13 seconds. Takes 13 seconds, but you’ll have an extra bowl to wash and the thaw comes out uneven.' },
+        { kind: 'subhead', t: 'Step 2 — add kibble' },
+        { t: '20–30 pieces. Go by eyeballing it — it should be a small handful.' },
+        { kind: 'subhead', t: 'Step 3 — add water' },
+        { t: 'A splash.' },
+        { kind: 'subhead', t: 'Step 4 — wash the bowl' },
+        { t: 'Wash it once he’s finished eating. This is the easiest way to keep it clean, and it will be unsafe for you to handle a bowl that sat with raw food overnight.' },
+      ] },
+      { ti: 'Water', it: [
+        { t: 'The water bowl should be changed every 2–3 days.' },
       ] },
       { ti: 'Hygiene of food containers', to: 'warn', it: [
         { t: 'Because there is raw meat in the diet, the bowl should be washed every feeding to prevent bacteria overgrowth. This is for both your health and the cat’s, as you will be touching the bowl. The easiest way is to rinse it immediately after he eats, because it will be wet and easy to rinse off.' },
@@ -337,7 +355,7 @@ const DATA = {
     num: '07', title: 'Bathroom use', label: 'bathroom',
     tldr: [
       { ti: 'Indoors', it: [
-        { t: 'If he’s confined indoors, he uses the litter box. Scoop it no less frequently than every other day.' },
+        { t: 'If he’s confined indoors, he uses the litter box. Scoop it at least once every 3 days.' },
       ] },
       { ti: 'Outdoors', it: [
         { t: 'If he’s allowed outside, he’ll do most of his business out there.' },
@@ -348,7 +366,7 @@ const DATA = {
     ],
     detailed: [
       { ti: 'Indoor', it: [
-        { t: 'If he is confined indoors, he will use the litter box. Please keep the litter box clean by scooping no less frequently than every other day.' },
+        { t: 'If he is confined indoors, he will use the litter box. Please keep the litter box clean by scooping it at least once every 3 days.' },
       ] },
       { ti: 'Litter disposal', to: 'warn', it: [
         { t: 'The litter is not biodegradable — please dispose of it in landfill.' },
