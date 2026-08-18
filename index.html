@@ -150,6 +150,8 @@
 </nav>
 
 <script>
+const litterVid = { label: '▸ watch: how to clean a litter box', url: 'https://www.youtube.com/watch?v=to7dSD-tWGs' };
+
 const DATA = {
   supplies: {
     num: '01', title: 'Supplies', label: 'supplies',
@@ -313,8 +315,19 @@ const DATA = {
       { ti: 'He’s a social animal', it: [
         { t: 'Ping likes to socialize with people in the house, enjoys laying on people, and enjoys playing chasing games.' },
       ] },
-      { ti: 'Getting acquainted', it: [
-        { t: 'New environment = give him about 1 day in your room, with food and litter box accessible, before expecting anything social. Once he stops hiding, introduce new people by greeting him with snacks.' },
+      { ti: 'Getting acquainted, in order', it: [
+        { l: '1. Let him hide. ', t: 'Do not pull him out. The first move has to be his.' },
+        { l: '2. Get low. ', t: 'Sit on the floor, turned slightly sideways. Standing over him reads as looming.' },
+        { l: '3. Ignore him ', t: 'and slow-blink if you catch his eye. Staring is what predators do.' },
+        { l: '4. Offer one finger ', t: 'at his nose height and let him close the last of the gap himself.' },
+        { l: '5. Wait for the headbutt. ', t: 'A cheek or forehead rub is consent — now scratch his chin, cheeks and forehead.' },
+        { l: '6. Pay him. ', t: 'End on a snack, and have every new person greet him with one.' },
+      ] },
+      { ti: 'Settling into a new place', it: [
+        { l: 'Day 1: ', t: 'one room only, door shut, with litter box, water, food, blanket and llama.' },
+        { l: 'He will hide ', t: 'under the bed or couch. Normal. Leave him there.' },
+        { l: 'Wait for all three: ', t: 'eating, using the box, and coming out on his own while you’re in the room.' },
+        { l: 'Then add one room, ', t: 'about one a day, always leaving his safe room open to retreat into.' },
       ] },
       { ti: 'How to win his favor', to: 'good', it: [
         { l: 'Petting: ', t: 'chin, cheeks and forehead scratches; very light spanks on his butt (the space before the root of his tail).' },
@@ -326,8 +339,37 @@ const DATA = {
       { ti: 'How social he is', it: [
         { t: 'Ping is a very social animal. He likes to socialize with people in the house, and enjoys laying on people and playing chasing games.' },
       ] },
-      { ti: 'Getting acquainted', it: [
-        { t: 'If it is an entirely new environment, he will need some time to be comfortable with the place before being social. Give him time — typically 1 day in your room (with food and litter box accessible) to be confident with the environment. Once he no longer hides, introduce new people by greeting him with snacks.' },
+      { ti: 'Getting acquainted, step by step', it: [
+        { kind: 'lead', t: 'If it is an entirely new environment, he will need some time to be comfortable with the place before being social. Give him time — typically 1 day in your room (with food and litter box accessible) to be confident with the environment. Once he no longer hides, introduce new people by greeting him with snacks. Here is how to actually run that first meeting.' },
+        { kind: 'subhead', t: 'Step 1 — let him hide' },
+        { t: 'Do not pull him out from under the bed or the couch, and do not chase him. The first move has to be his, or you become the thing he is hiding from.' },
+        { kind: 'subhead', t: 'Step 2 — get low and small' },
+        { t: 'Sit or lie on the floor, turned slightly sideways rather than square on to him. Standing over a cat and facing him head-on reads as looming.' },
+        { kind: 'subhead', t: 'Step 3 — ignore him' },
+        { t: 'Read, work, or talk quietly to someone else in the room. Cats approach the person who is not staring at them. If you do catch his eye, give him a slow blink — a hard stare is a predator behavior, and a slow blink is the opposite.' },
+        { kind: 'subhead', t: 'Step 4 — offer a finger' },
+        { t: 'When he comes within reach, hold out one finger at his nose height and let him close the last of the distance himself. Do not reach over the top of his head.' },
+        { kind: 'subhead', t: 'Step 5 — wait for the headbutt' },
+        { t: 'If he sniffs your finger and then rubs his cheek or forehead against it, that is consent, and you can start scratching his chin, cheeks and forehead. If he sniffs and backs away instead, let him go and try again later.' },
+        { kind: 'subhead', t: 'Step 6 — pay him' },
+        { t: 'Finish good interactions with a snack, and have every new person in the house greet him with one. He is food-motivated to a fault — use it.' },
+        { kind: 'subhead', t: 'What not to do' },
+        { t: 'Do not pick him up while he is still settling in, and do not corner him in order to pet him. Both tend to undo several days of progress.' },
+      ] },
+      { ti: 'Introducing him to a new home, day by day', it: [
+        { kind: 'lead', t: 'A cat given a whole house at once will find the single most inaccessible corner of it and live there. The fix is to make his world small first, then grow it.' },
+        { kind: 'subhead', t: 'Day 1 — one room' },
+        { t: 'Pick one room, ideally the one you sleep in, and keep the door shut. Everything he needs goes in it: litter box, water, his food, his blanket and pillow, and the llama toy.' },
+        { t: 'He will almost certainly go straight under the bed or the couch and stay there. This is normal and is not a sign that anything is wrong. Do not pull him out.' },
+        { t: 'Spend time in the room doing your own quiet thing, so he gets used to the sound and smell of you without having to interact.' },
+        { kind: 'subhead', t: 'Day 1–2 — the signs he is ready for more' },
+        { t: 'Wait until all three are true: he is eating his meals, he is using the litter box, and he comes out on his own while you are in the room. Until all three happen, do not expand his territory.' },
+        { kind: 'subhead', t: 'Day 2–3 — add one room' },
+        { t: 'Open the door and let him decide whether to walk through it — do not carry him out. Leave the safe room open the entire time so he can bolt back into it, and leave his litter box and food where they already are.' },
+        { kind: 'subhead', t: 'Day 3 onward — add the rest' },
+        { t: 'Add roughly one room a day, same pattern each time. Close off anywhere you do not want him yet, rather than letting him discover it and get startled out of it.' },
+        { kind: 'subhead', t: 'Only then — outdoors' },
+        { t: 'Do not let him outside until he is fully comfortable indoors and no longer hides or runs from you. See the Outdoor chapter: to an unsettled cat, an open door is not a walk, it is an escape from a kidnapper.' },
       ] },
       { ti: 'How to win Ping’s favor', to: 'good', it: [
         { l: 'Petting: ', t: 'he enjoys scratches on his chin, cheeks and forehead, and being spanked very lightly on his butt (the space before the root of his tail).' },
@@ -359,22 +401,50 @@ const DATA = {
       { ti: 'Indoors', it: [
         { t: 'If he’s confined indoors, he uses the litter box. Scoop it at least once every 3 days.' },
       ] },
+      { ti: 'Where to put the litter box', it: [
+        { l: 'Quiet and low-traffic, ', t: 'but not a dead end — he needs to see what is coming and have a way out.' },
+        { l: 'Never beside his food and water. ', t: 'No cat wants a toilet next to the kitchen. Another room if the layout allows.' },
+        { l: 'Away from anything that bangs ', t: '— washer, dryer, furnace. One startle mid-use and he may quietly write the box off.' },
+        { l: 'Always reachable: ', t: 'never behind a door that can swing shut. While he’s settling in, it goes in his room.' },
+        { l: 'Then leave it there. ', t: 'Once he’s used it, don’t relocate it overnight.' },
+      ] },
       { ti: 'Outdoors', it: [
         { t: 'If he’s allowed outside, he’ll do most of his business out there.' },
       ] },
       { ti: '⚠️ Litter disposal', to: 'warn', it: [
         { t: 'The litter is NOT biodegradable — please dispose of it in landfill.' },
       ] },
+      { ti: 'How to clean the box', to: 'good', it: [
+        { t: 'Short video walkthrough. The actual scooping starts around 8:00.', link: litterVid },
+      ] },
     ],
     detailed: [
       { ti: 'Indoor', it: [
         { t: 'If he is confined indoors, he will use the litter box. Please keep the litter box clean by scooping it at least once every 3 days.' },
+      ] },
+      { ti: 'Where to place the litter box', it: [
+        { kind: 'lead', t: 'Where the box goes matters more than people expect. Most “the cat stopped using the box” problems are really “the box is somewhere the cat does not feel safe”.' },
+        { kind: 'subhead', t: '1. Somewhere quiet, but with an exit' },
+        { t: 'A low-traffic corner is right, but avoid true dead ends like the back of a narrow closet. He wants to see what is approaching and have a clear way out while he is occupied and vulnerable.' },
+        { kind: 'subhead', t: '2. Far from his food and water' },
+        { t: 'Cats will not comfortably eliminate next to where they eat. Keep the box well away from both bowls — a different room entirely if the layout allows it.' },
+        { kind: 'subhead', t: '3. Away from anything that bangs' },
+        { t: 'Washing machines, dryers, furnaces and boilers all kick on without warning. Getting startled mid-use is one of the more common reasons a cat quietly decides the box is unsafe and picks a rug instead.' },
+        { kind: 'subhead', t: '4. Always accessible' },
+        { t: 'Never behind a door that can swing shut, and not somewhere he has to cross a room full of strangers to reach. While he is confined to one room settling in, the box goes in that room with him.' },
+        { kind: 'subhead', t: '5. Then leave it alone' },
+        { t: 'Once he has started using it, keep it there. If you genuinely have to move it, shift it gradually rather than relocating it overnight.' },
+        { kind: 'subhead', t: 'Good candidates' },
+        { t: 'A quiet bathroom, a corner of the bedroom he is settling into, or an unused stretch of hallway. If you have multiple floors, one box per floor is a kindness.' },
       ] },
       { ti: 'Litter disposal', to: 'warn', it: [
         { t: 'The litter is not biodegradable — please dispose of it in landfill.' },
       ] },
       { ti: 'Outdoor', it: [
         { t: 'If he is allowed outside, he will do most of his business outside.' },
+      ] },
+      { ti: 'How to clean the litter box', to: 'good', it: [
+        { t: 'A short video walkthrough of cleaning and scooping a box. The scooping instructions themselves start at around the 8:00 mark.', link: litterVid },
       ] },
     ],
   },
